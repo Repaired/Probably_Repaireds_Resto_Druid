@@ -21,7 +21,7 @@ ProbablyEngine.rotation.register_custom(105, "Repaired's Resto Druid", {
  { "Tranquility", "modifier.rcontrol" },
  
 --Genesis
- { "Genesis", "modifier.lcontrol" },
+ { "Genesis", "modifier.lcontrol", "!modifier.last(Genesis)" },
  
 --Shrooms
  { "Wild Mushroom", "modifier.lalt", "ground" },
@@ -31,12 +31,13 @@ ProbablyEngine.rotation.register_custom(105, "Repaired's Resto Druid", {
  { "Innervate", "player.mana <= 75", "player" },
  
 --Rebirth MouseOver
- { "Rebirth", "!mouseover.alive", "mouseover" },
+ { "Rebirth", "mouseover.dead", "mouseover" },
  
 ---------INCARNATION!---------
 --Regrowth
  { "Regrowth", {
    "player.buff(33891)",
+   "!lowest.buff(Regrowth)",
    "lowest.health <= 80",
    "!lowest.range > 40"
  }, "lowest" },
@@ -68,39 +69,32 @@ ProbablyEngine.rotation.register_custom(105, "Repaired's Resto Druid", {
 --OH SHIT INSANT TANK REBIRTH
  
 -- { "Rebirth", {
---   "player.buff(132158)",
---   "!tank.alive",
---   "!tank.range > 40"
+--  "player.buff(132158)",
+--  "tank.Health = 0",
+--  "!tank.range > 40"
 -- }, "tank" },
 
 -- { "Nature's Swiftness", {
---   "!tank.alive",
+--  "tank.Health = 0",
 --   "!tank.range > 40"
 -- }, "tank" },
 
- 
 --Or... Not instant if player does not have Nature's Swiftness
 
 -- { "Rebirth", {
---   "!player.buff(Nature's Swiftness)",
---   "!tank.alive",
+--  "!player.buff(Nature's Swiftness)",
+--   "tank.Health = 0",
 --   "!tank.range > 40"
 -- }, "tank" },
  
 --Shit shit shit fuck shit shit 
 --Dicorienting Roar, Barkskin, Ursoc, Renewal, Ironbark, Cenarion ward SELF!
-
  { "Disorienting Roar", "target.threat >= 40" },
- 
  { "Barkskin", "player.health <= 60" },
- 
  { "Might of Ursoc", "player.health < 30" },
- { "/cancelform", "player.buff(Might of Ursoc)" },
- 
+ { "/cancelform", "player.buff(Bear Form)" },
  { "Renewal", "player.health <= 30", "player" },
- 
  { "Ironbark", "player.health < 55", "player" },
- 
  { "102351", "player.health < 50", "player" },
  
  
@@ -170,12 +164,14 @@ ProbablyEngine.rotation.register_custom(105, "Repaired's Resto Druid", {
 --Regrowth
  { "Regrowth", {
    "lowest.health <= 55",
+   "!lowest.buff(Regrowth)",
    "!lowest.range > 40"
  }, "lowest" },
  
 --Regrowth Clearcasting
  { "Regrowth", { 
    "player.buff(16870)", 
+   "!lowest.buff(Regrowth)",
    "lowest.health < 60",
    "!lowest.range > 40"
  }, "lowest" },
@@ -211,7 +207,10 @@ ProbablyEngine.rotation.register_custom(105, "Repaired's Resto Druid", {
 --| Out of Combat Healing/Buffing |--
 -----------------------------------
 --MOTW
- { "Mark of the Wild", "!player.buff(Mark of the Wild)" },
+ { "Mark of the Wild", { 
+   "!player.buff(Mark of the Wild).any",
+   "!player.buff(Blessing of Kings).any",
+   "!player.buff(Legacy of the Emperor).any" }},
  
 --Shrooms
  { "Wild Mushroom", "modifier.lalt", "ground" },
@@ -234,6 +233,7 @@ ProbablyEngine.rotation.register_custom(105, "Repaired's Resto Druid", {
  
  { "Regrowth", {
    "lowest.health < 40",
+   "!lowest.buff(Regrowth)",
    "!lowest.range > 40"
  }, "lowest" },
  
